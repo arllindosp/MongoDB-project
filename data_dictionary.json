@@ -1,0 +1,141 @@
+{
+  "User": {
+    "description": "Usuários da plataforma, podem ser estudantes, instrutores ou administradores.",
+    "fields": {
+      "name": "Nome completo do usuário.",
+      "email": "Endereço de e-mail único.",
+      "password": "Senha criptografada.",
+      "plan": "Plano de assinatura do usuário.",
+      "createdAt": "Data de criação do usuário.",
+      "lastLogin": "Último acesso do usuário.",
+      "role": "Tipo de usuário: student, instructor ou admin.",
+      "bio": "Biografia ou descrição pessoal.",
+      "socialLinks": "Links para redes sociais."
+    }
+  },
+  "Transaction": {
+    "description": "Transações financeiras realizadas na plataforma.",
+    "fields": {
+      "userId": "Referência ao usuário que realizou a transação.",
+      "courseId": "Referência ao curso comprado.",
+      "amount": "Valor da transação.",
+      "currency": "Moeda utilizada.",
+      "paymentMethod": "Método de pagamento (cartão, boleto, etc).",
+      "status": "Status da transação: pending, completed, failed.",
+      "transactionDate": "Data da transação."
+    }
+  },
+  "Student": {
+    "description": "Perfil de estudante, com cursos matriculados e progresso.",
+    "fields": {
+      "nome": "Nome do estudante.",
+      "userId": "Referência ao usuário base.",
+      "cartId": "Referência ao carrinho de compras.",
+      "enrolledCourses": "Lista de cursos em que está matriculado.",
+      "certificates": "Certificados conquistados.",
+      "progress": "Progresso em cada curso e lição."
+    }
+  },
+  "Session": {
+    "description": "Sessões de curso, agrupando lições e tópicos.",
+    "fields": {
+      "title": "Título da sessão.",
+      "description": "Descrição da sessão.",
+      "subSessions": "Subsessões ou tópicos dentro da sessão.",
+      "createdAt": "Data de criação da sessão."
+    }
+  },
+  "Playlist": {
+    "description": "Listas de reprodução de lições, criadas por usuários.",
+    "fields": {
+      "title": "Título da playlist.",
+      "description": "Descrição da playlist.",
+      "createdAt": "Data de criação.",
+      "userId": "Referência ao criador da playlist.",
+      "lessons": "Lições incluídas na playlist.",
+      "isPublic": "Se a playlist é pública ou privada.",
+      "status": "Status da playlist.",
+      "comments": "Comentários associados."
+    }
+  },
+  "Lesson": {
+    "description": "Lições individuais dos cursos.",
+    "fields": {
+      "title": "Título da lição.",
+      "duration": "Duração em minutos.",
+      "resources": "Recursos anexos (pdf, slide, link).",
+      "status": "Status da lição.",
+      "comments": "Comentários sobre a lição."
+    }
+  },
+  "Instructor": {
+    "description": "Perfil de instrutor, com especialidades e cursos ministrados.",
+    "fields": {
+      "userId": "Referência ao usuário base.",
+      "specialties": "Áreas de especialidade do instrutor.",
+      "rating": "Avaliação média do instrutor.",
+      "totalStudents": "Total de alunos.",
+      "totalCourses": "Total de cursos ministrados.",
+      "courses": "Cursos ministrados."
+    }
+  },
+  "Course": {
+    "description": "Cursos disponíveis na plataforma, com informações detalhadas.",
+    "fields": {
+      "title": "Título do curso.",
+      "description": "Descrição detalhada do curso.",
+      "category": "Categoria principal do curso.",
+      "subcategory": "Subcategoria do curso.",
+      "language": "Idioma do curso.",
+      "price": "Preço do curso.",
+      "thumbnail": "URL da imagem de capa.",
+      "level": "Nível de dificuldade.",
+      "certificates": "Certificados associados ao curso.",
+      "comments": "Comentários dos alunos.",
+      "instructorId": "Instrutores responsáveis.",
+      "playlistId": "Playlists relacionadas.",
+      "ratingAverage": "Avaliação média.",
+      "published": "Se o curso está publicado.",
+      "createdAt": "Data de criação.",
+      "updatedAt": "Data de atualização.",
+      "publishedAt": "Data de publicação.",
+      "releaseDate": "Data de lançamento.",
+      "url": "URL do curso."
+    }
+  },
+  "Comment": {
+    "description": "Comentários feitos por usuários em cursos, lições ou playlists.",
+    "fields": {
+      "userId": "Referência ao autor do comentário.",
+      "text": "Conteúdo textual do comentário.",
+      "createdAt": "Data de criação do comentário."
+    }
+  },
+  "Certificate": {
+    "description": "Certificados emitidos para alunos que completaram cursos.",
+    "fields": {
+      "certificateId": "Identificador único do certificado.",
+      "courseId": "Referência ao curso concluído.",
+      "issueDate": "Data de emissão.",
+      "certificateUrl": "URL do certificado.",
+      "status": "Status do certificado.",
+      "declaration": "Declaração ou observação adicional."
+    }
+  },
+  "Category": {
+    "description": "Categorias principais dos cursos.",
+    "fields": {
+      "name": "Nome da categoria.",
+      "description": "Descrição da categoria.",
+      "subcategories": "Lista de subcategorias."
+    }
+  },
+  "Cart": {
+    "description": "Carrinho de compras do usuário.",
+    "fields": {
+      "userId": "Referência ao dono do carrinho.",
+      "items": "Cursos adicionados ao carrinho.",
+      "updatedAt": "Data da última atualização."
+    }
+  }
+}
