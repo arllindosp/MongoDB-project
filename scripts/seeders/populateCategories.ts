@@ -1,5 +1,5 @@
 import mongoose from "../../database/mongo";
-const Category = require("..//../models/Category");
+import Category from "../../models/Category";
 
 const categories = [
   {
@@ -81,3 +81,65 @@ const categories = [
     ],
   },
 ];
+
+import Course from "../../models/Course";
+
+async function seedCategoriesAndAssign() {
+  // Remove todas as categorias existentes
+  await Category.deleteMany({});
+  // Insere as categorias e subcategorias
+  await Category.insertMany(categories);
+
+  // Busca todas as categorias
+  const allCategories = await Category.find({});
+  // Cria arrays para busca flexível por nome de categoria e subcategoria
+  const categoryEntries: { name: string; _id: any }[] = [];
+  const subcategoryEntries: { name: string; parentId: any }[] = [];
+  allCategories.forEach((cat: any) => {
+    categoryEntries.push({ name: cat.name.toLowerCase(), _id: cat._id });
+    if (cat.subcategories && Array.isArray(cat.subcategories)) {
+      cat.subcategories.forEach((sub: any) => {
+        subcategoryEntries.push({
+          name: sub.name.toLowerCase(),
+          parentId: cat._id,
+        });
+      });
+    }
+  });
+
+  // Busca todos os cursos
+  const courses = await Course.find({});
+  for (const course of courses) {
+    let foundCategoryId = null;
+    let foundSubcategory = "";
+    const titleLower = course.title.toLowerCase();
+    // Primeiro tenta encontrar subcategoria
+    for (const sub of subcategoryEntries) {
+      if (titleLower.includes(sub.name)) {
+        foundCategoryId = sub.parentId;
+        foundSubcategory = sub.name;
+        break;
+      }
+    }
+    // Se não achou subcategoria, tenta categoria principal
+    if (!foundCategoryId) {
+      for (const entry of categoryEntries) {
+        if (titleLower.includes(entry.name)) {
+          foundCategoryId = entry._id;
+          break;
+        }
+      }
+    }
+    course.category = foundCategoryId;
+    course.subcategory = foundSubcategory;
+    await course.save();
+  }
+  console.log(
+    "\x1b[32m✔ Categorias e subcategorias atribuídas aos cursos com sucesso!\x1b[0m"
+  );
+}
+
+// Executa tudo automaticamente ao rodar o script
+seedCategoriesAndAssign()
+  .catch((err) => console.error("Erro ao inserir/atribuir categorias:", err))
+  .finally(() => mongoose.connection.close());

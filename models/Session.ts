@@ -16,4 +16,5 @@ const sessionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Session", sessionSchema);
+const Session = mongoose.model("Session", sessionSchema);
+export default Session;

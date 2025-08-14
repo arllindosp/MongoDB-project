@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Category = require("..//../models/Category");
+const mongo_1 = __importDefault(require("../../database/mongo"));
+const Category_1 = __importDefault(require("../../models/Category"));
 const categories = [
     {
         name: "TI/Programação",
@@ -81,3 +85,58 @@ const categories = [
         ],
     },
 ];
+const Course_1 = __importDefault(require("../../models/Course"));
+async function seedCategoriesAndAssign() {
+    // Remove todas as categorias existentes
+    await Category_1.default.deleteMany({});
+    // Insere as categorias e subcategorias
+    await Category_1.default.insertMany(categories);
+    // Busca todas as categorias
+    const allCategories = await Category_1.default.find({});
+    // Cria arrays para busca flexível por nome de categoria e subcategoria
+    const categoryEntries = [];
+    const subcategoryEntries = [];
+    allCategories.forEach((cat) => {
+        categoryEntries.push({ name: cat.name.toLowerCase(), _id: cat._id });
+        if (cat.subcategories && Array.isArray(cat.subcategories)) {
+            cat.subcategories.forEach((sub) => {
+                subcategoryEntries.push({
+                    name: sub.name.toLowerCase(),
+                    parentId: cat._id,
+                });
+            });
+        }
+    });
+    // Busca todos os cursos
+    const courses = await Course_1.default.find({});
+    for (const course of courses) {
+        let foundCategoryId = null;
+        let foundSubcategory = "";
+        const titleLower = course.title.toLowerCase();
+        // Primeiro tenta encontrar subcategoria
+        for (const sub of subcategoryEntries) {
+            if (titleLower.includes(sub.name)) {
+                foundCategoryId = sub.parentId;
+                foundSubcategory = sub.name;
+                break;
+            }
+        }
+        // Se não achou subcategoria, tenta categoria principal
+        if (!foundCategoryId) {
+            for (const entry of categoryEntries) {
+                if (titleLower.includes(entry.name)) {
+                    foundCategoryId = entry._id;
+                    break;
+                }
+            }
+        }
+        course.category = foundCategoryId;
+        course.subcategory = foundSubcategory;
+        await course.save();
+    }
+    console.log("\x1b[32m✔ Categorias e subcategorias atribuídas aos cursos com sucesso!\x1b[0m");
+}
+// Executa tudo automaticamente ao rodar o script
+seedCategoriesAndAssign()
+    .catch((err) => console.error("Erro ao inserir/atribuir categorias:", err))
+    .finally(() => mongo_1.default.connection.close());

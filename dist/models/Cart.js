@@ -5,10 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongo_1 = __importDefault(require("../database/mongo"));
 const cartSchema = new mongo_1.default.Schema({
-    _id: {
-        type: mongo_1.default.Schema.Types.ObjectId,
-        default: () => new mongo_1.default.Types.ObjectId(),
-    },
     userId: { type: mongo_1.default.Schema.Types.ObjectId, ref: "User", required: true },
     items: [
         {
@@ -22,4 +18,5 @@ const cartSchema = new mongo_1.default.Schema({
     ],
     updatedAt: { type: Date, default: Date.now },
 });
-module.exports = mongo_1.default.model("Cart", cartSchema);
+const Cart = mongo_1.default.model("Cart", cartSchema);
+exports.default = Cart;

@@ -14,4 +14,5 @@ const categorySchema = new mongo_1.default.Schema({
         },
     ],
 });
-module.exports = mongo_1.default.model("Category", categorySchema);
+const Category = mongo_1.default.model("Category", categorySchema);
+exports.default = Category;

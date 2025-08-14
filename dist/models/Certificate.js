@@ -17,5 +17,10 @@ const certificateSchema = new mongo_1.default.Schema({
         enum: ["issued", "revoked", "pending"],
         default: "issued",
     },
+    declaration: {
+        type: String,
+        default: "",
+    },
 });
-module.exports = mongo_1.default.model("Certificate", certificateSchema);
+const Certificate = mongo_1.default.model("Certificate", certificateSchema);
+exports.default = Certificate;

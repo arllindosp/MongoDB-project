@@ -4,16 +4,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Seeder (populateCourses)",
-      "program": "${workspaceFolder}/dist/scripts/seeders/populateCourses.js",
+      "name": "Debug Seeder Matrículas",
+      "program": "${workspaceFolder}/dist/scripts/seeders/assignStudentsToCourses.js",
       "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "cwd": "${workspaceFolder}/scripts/seeders",
-      "skipFiles": ["<node_internals>/**"],
-      "runtimeArgs": ["-r", "ts-node/register"],
-      "env": {
-        "NODE_ENV": "development"
-      }
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/*"]
     }
   ]
 }

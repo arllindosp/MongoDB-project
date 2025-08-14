@@ -7,12 +7,18 @@ const certificateSchema = new mongoose.Schema({
   },
   courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
   issueDate: { type: Date, default: Date.now },
+
   certificateUrl: String,
   status: {
     type: String,
     enum: ["issued", "revoked", "pending"],
     default: "issued",
   },
+  declaration: {
+    type: String,
+    default: "",
+  },
 });
 
-module.exports = mongoose.model("Certificate", certificateSchema);
+const Certificate = mongoose.model("Certificate", certificateSchema);
+export default Certificate;

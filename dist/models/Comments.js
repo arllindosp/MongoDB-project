@@ -9,4 +9,5 @@ const commentSchema = new mongo_1.default.Schema({
     text: String,
     createdAt: { type: Date, default: Date.now },
 });
-module.exports = mongo_1.default.model("Comment", commentSchema);
+const Comment = mongo_1.default.model("Comment", commentSchema);
+exports.default = Comment;

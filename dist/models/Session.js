@@ -16,4 +16,5 @@ const sessionSchema = new mongo_1.default.Schema({
     subSessions: [subSessionSchema],
     createdAt: { type: Date, default: Date.now },
 });
-module.exports = mongo_1.default.model("Session", sessionSchema);
+const Session = mongo_1.default.model("Session", sessionSchema);
+exports.default = Session;

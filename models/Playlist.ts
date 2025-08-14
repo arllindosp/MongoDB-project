@@ -23,4 +23,5 @@ const playlistSchema = new mongoose.Schema({
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
-module.exports = mongoose.model("Playlist", playlistSchema);
+const Playlist = mongoose.model("Playlist", playlistSchema);
+export default Playlist;

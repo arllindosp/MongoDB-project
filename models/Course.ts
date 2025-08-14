@@ -7,6 +7,7 @@ const courseSchema = new mongoose.Schema({
   title: String,
   description: String,
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+  subcategory: { type: String },
   language: {
     type: String,
     enum: languages,
@@ -35,4 +36,7 @@ const courseSchema = new mongoose.Schema({
   releaseDate: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Course", courseSchema);
+// ...índice de texto removido temporariamente...
+
+const Course = mongoose.model("Course", courseSchema);
+export default Course;

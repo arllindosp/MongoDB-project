@@ -1,1 +1,4 @@
+mongoose
+typescript
+ts-node
 

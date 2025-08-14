@@ -11,6 +11,7 @@ const courseSchema = new mongo_1.default.Schema({
     title: String,
     description: String,
     category: { type: mongo_1.default.Schema.Types.ObjectId, ref: "Category" },
+    subcategory: { type: String },
     language: {
         type: String,
         enum: languages,
@@ -38,4 +39,6 @@ const courseSchema = new mongo_1.default.Schema({
     url: String,
     releaseDate: { type: Date, default: Date.now },
 });
-module.exports = mongo_1.default.model("Course", courseSchema);
+// ...índice de texto removido temporariamente...
+const Course = mongo_1.default.model("Course", courseSchema);
+exports.default = Course;

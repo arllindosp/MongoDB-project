@@ -26,4 +26,5 @@ const playlistSchema = new mongo_1.default.Schema({
     },
     comments: [{ type: mongo_1.default.Schema.Types.ObjectId, ref: "Comment" }],
 });
-module.exports = mongo_1.default.model("Playlist", playlistSchema);
+const Playlist = mongo_1.default.model("Playlist", playlistSchema);
+exports.default = Playlist;

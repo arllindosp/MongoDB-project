@@ -1,7 +1,7 @@
 import mongoose from "../../database/mongo";
-const User = require("../../models/User");
-const Student = require("../../models/Student");
-const Instructor = require("../../models/Instructor");
+import User from "../../models/User";
+import Student from "../../models/Student";
+import Instructor from "../../models/Instructor";
 
 const users = [
   // Estudantes
@@ -163,6 +163,7 @@ async function populate() {
     await Promise.all(
       studentUsers.map((user: any) =>
         Student.create({
+          nome: user.name,
           userId: user._id,
           cartId: null,
           enrolledCourses: [],
@@ -195,7 +196,11 @@ async function populate() {
     // ================= ADMINS =================
     // Os admins já estão criados na coleção User, não precisam de documento extra
 
-    console.log("Usuários, estudantes e instrutores inseridos com sucesso!");
+    // Teste de cores no terminal
+    // Mensagem principal
+    console.log(
+      "\x1b[32m✔ Usuários, estudantes e instrutores inseridos com sucesso!\x1b[0m"
+    );
   } catch (err) {
     console.error("Erro ao inserir:", err);
   } finally {
@@ -211,13 +216,13 @@ async function atualizarDadosInstrutoresPorNome() {
   // Consulta todos os instrutores existentes
   const instrutores = await Instructor.find({}).populate("userId");
 
-  // Lista de dados reais por nome
-  const instrutoresExtrasPorNome: { [key: string]: any } = {
+  // Lista de dados reais por nome (sem tipo TS)
+  const instrutoresExtrasPorNome = {
     "Carlos Souza": {
       specialties: ["Programação", "JavaScript", "Node.js"],
       rating: 4.8,
-      totalStudents: 1200,
-      totalCourses: 8,
+      totalStudents: 0,
+      totalCourses: 3,
       courses: [
         "Node.js para Iniciantes",
         "JavaScript Moderno e Avançado",
@@ -229,8 +234,8 @@ async function atualizarDadosInstrutoresPorNome() {
     "Juliana Martins": {
       specialties: ["Matemática", "Estatística", "Python"],
       rating: 4.5,
-      totalStudents: 800,
-      totalCourses: 5,
+      totalStudents: 0,
+      totalCourses: 3,
       courses: [
         "Fundamentos de Estatística para Iniciantes",
         "Matemática Financeira Aplicada",
@@ -242,8 +247,8 @@ async function atualizarDadosInstrutoresPorNome() {
     "Patrícia Duarte": {
       specialties: ["Física", "Engenharia", "Cálculo"],
       rating: 4.7,
-      totalStudents: 950,
-      totalCourses: 6,
+      totalStudents: 0,
+      totalCourses: 3,
       courses: [
         "Laboratório de Física Experimental",
         "Cálculo Diferencial e Integral I",
@@ -255,8 +260,8 @@ async function atualizarDadosInstrutoresPorNome() {
     "Larissa Ribeiro": {
       specialties: ["Química", "Biologia", "Ciências Naturais"],
       rating: 4.6,
-      totalStudents: 700,
-      totalCourses: 4,
+      totalStudents: 0,
+      totalCourses: 3,
       courses: [
         "Química Orgânica Estrutural",
         "Biologia Celular e Molecular",
@@ -268,7 +273,7 @@ async function atualizarDadosInstrutoresPorNome() {
     "Isabela Nunes": {
       specialties: ["História", "Sociologia", "Filosofia"],
       rating: 4.4,
-      totalStudents: 600,
+      totalStudents: 0,
       totalCourses: 3,
       courses: [
         "História do Brasil: Da Colônia à República",
@@ -281,12 +286,32 @@ async function atualizarDadosInstrutoresPorNome() {
   };
 
   // Itera e atualiza cada instrutor pelo nome do usuário
+  // Busca os cursos pelo nome e atribui os ObjectIds
+  const Course = require("../../models/Course").default;
   for (const instrutor of instrutores) {
-    const nome = instrutor.userId?.name;
+    const nome = instrutor.userId
+      ?.name as keyof typeof instrutoresExtrasPorNome;
     const extras = instrutoresExtrasPorNome[nome];
     if (extras) {
-      await Instructor.findByIdAndUpdate(instrutor._id, extras, { new: true });
+      // Busca os cursos pelo nome
+      const cursosDocs = await Course.find({ title: { $in: extras.courses } });
+      const cursosIds = cursosDocs.map((curso: { _id: any }) => curso._id);
+      // Atualiza o instrutor com os ObjectIds dos cursos
+      await Instructor.findByIdAndUpdate(
+        instrutor._id,
+        {
+          ...extras,
+          courses: cursosIds,
+        },
+        { new: true }
+      );
+      // Atualiza o campo instructorId de cada curso para o id do instrutor
+      for (const cursoDoc of cursosDocs) {
+        await Course.updateOne(
+          { _id: cursoDoc._id },
+          { $set: { instructorId: [instrutor._id] } }
+        );
+      }
     }
   }
-  console.log("Dados dos instrutores atualizados pelo nome!");
 }
