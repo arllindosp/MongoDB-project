@@ -9,7 +9,7 @@ O **MongoDB Project** é uma plataforma acadêmica de streaming educacional dest
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## 📋 Estrutura do Projeto
 
 
 ```
@@ -160,3 +160,4 @@ Contribuições são bem-vindas! Sinta-se livre para abrir issues e pull request
 ## 📄 Licença
 
 Este projeto está sob a licença ISC. Veja o arquivo LICENSE para mais detalhes.
+
