@@ -1,13 +1,9 @@
-
-<div style="display: flex; align-items: center; justify-content: flex-start;">
-	<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB Logo" width="80" height="80"/>
-	<h1 style="margin-left: 16px;">MongoDB Project </h1>
-</div>
-
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB Logo" width="80" height="80"/>
+</p>
+<h1 align="center">MongoDB Project</h1>
 
 O **MongoDB Project** é uma plataforma acadêmica de streaming educacional destinada à promoção do aprendizado, desenvolvimento de competências e difusão do conhecimento. Este projeto foi concebido para a disciplina de Banco de Dados 2025.1. O sistema permite que estudantes acessem videoaulas, interajam com instrutores, realizem comentários, recebam certificados digitais e acompanhem seu progresso em múltiplos cursos e disciplinas. A solução foi desenvolvida com foco em inovação pedagógica, gestão de conteúdos, análise de desempenho e integração de recursos didáticos, visando apoiar instituições, educadores e aprendizes em ambientes de aprendizagem modernos e colaborativos.
-
----
 
 ## 📋 Estrutura do Projeto
 
@@ -160,4 +156,5 @@ Contribuições são bem-vindas! Sinta-se livre para abrir issues e pull request
 ## 📄 Licença
 
 Este projeto está sob a licença ISC. Veja o arquivo LICENSE para mais detalhes.
+
 
