@@ -5,7 +5,7 @@ import User from "../../models/User";
 
 const scripts = [
   "populateCourses.js",
-  "populateCategories.js", // Executa logo após courses
+  "populateCategories.js", 
   "populateUsers.js",
   "populatePaylists.js",
   "populateLessons.js",
@@ -15,7 +15,7 @@ const scripts = [
   "populateComments.js",
   "assignCertificates.js",
   "populateTransactions.js",
-  "populateCarts.js", // Popula carrinhos fictícios
+  "populateCarts.js", 
 ];
 
 async function dropAllCollections() {
@@ -23,7 +23,7 @@ async function dropAllCollections() {
     "certificates",
     "comments",
     "courses",
-    "coursesRenamed", // Adiciona a coleção renomeada para ser removida
+    "coursesRenamed", 
     "categories",
     "instructors",
     "lessons",
@@ -31,7 +31,7 @@ async function dropAllCollections() {
     "students",
     "transactions",
     "users",
-    "carts", // Adiciona a coleção de carrinhos
+    "carts", 
   ];
   for (const col of collectionsToDrop) {
     if (mongoose.connection.collections[col]) {
@@ -41,11 +41,11 @@ async function dropAllCollections() {
 }
 
 async function main() {
-  await mongoose.connection; // já está conectado pelo mongo.ts
+  await mongoose.connection; 
   console.log("Limpando todas as coleções...");
   await dropAllCollections();
 
-  // ...existing code...
+
 
   const { spawn } = require("child_process");
   const runSeeder = (script: string) => {
